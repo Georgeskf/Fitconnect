@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="mobile.project.hassan_mortada_social_fitness">
+    package="com.example.hassan_mortada_social_fitness">
    <application
-        android:label="hassan_mortada_social_fitness"
+        android:label="ActivPal"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
