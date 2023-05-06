@@ -4,14 +4,22 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hassan_mortada_social_fitness/models/user.dart';
+import 'package:hassan_mortada_social_fitness/resources/auth_result.dart';
 import 'package:hassan_mortada_social_fitness/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  //Sign up
-  Future<String> signUpUser(
+  Future<UserModel> getUserDetails() async{
+    DocumentSnapshot snap = await _firestore.collection("users").doc(_auth.currentUser!.uid).get();
+
+    return UserModel.fromSnap(snap);
+  }
+
+
+  Future<AuthResult> signUpUser(
       {required String email,
       required String name,
       required String password,
@@ -27,18 +35,25 @@ class AuthMethods {
         photoUrl = await StorageMethods().uploadImage("profilePics", file, false);
       }
       stdout.writeln(credential.user!.uid);
-      await _firestore.collection("users").doc(credential.user!.uid).set({
-        'name': name,
-        'uid': credential.user!.uid,
-        'email': email,
-        'followers': [],
-        'following': [],
-        'photoUrl': photoUrl
-      });
+
+      UserModel user = UserModel(uid: credential.user!.uid, email: email, name: name, photoUrl: photoUrl!, followers: [], following: []);
+
+      await _firestore.collection("users").doc(credential.user!.uid).set(user.toJson());
       res = 'success';
     } catch (err) {
       res = err.toString();
+      stdout.writeln(res);
+      return AuthResult(success: false, message: res);
     }
-    return res;
+    return AuthResult(success: true, message: "Success");
+  }
+
+  Future<AuthResult> loginUser({required String email, required String password}) async{
+    try{
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return AuthResult(success: true, message: "Result");
+    }catch(err){
+      return AuthResult(success: false, message: err.toString());
+    }
   }
 }

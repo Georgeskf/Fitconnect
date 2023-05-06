@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
+import 'package:hassan_mortada_social_fitness/resources/auth_result.dart';
 import 'package:hassan_mortada_social_fitness/screens/signup_screen.dart';
+import 'package:hassan_mortada_social_fitness/utils/utils.dart';
 import 'package:hassan_mortada_social_fitness/widgets/text_feild_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,8 +14,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+
+  void loginUser() async{
+    AuthResult res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text);
+
+    if(res.success){
+      showSnackBar("Successfully Logged In", context);
+    }else{
+      showSnackBar(res.message, context);
+    }
+  }
 
   @override
   void dispose() {
@@ -67,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24,
               ),
               InkWell(
+                onTap: loginUser,
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -107,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.blue),
+                            fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 255, 255)),
                       ),
                     ),
                   )
