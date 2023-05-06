@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
-import 'package:hassan_mortada_social_fitness/resources/auth_result.dart';
+import 'package:hassan_mortada_social_fitness/resources/method_result.dart';
 import 'package:hassan_mortada_social_fitness/screens/login_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/utils.dart';
 import 'package:hassan_mortada_social_fitness/widgets/text_feild_input.dart';
@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isLoading = true;
     });
 
-    AuthResult res = await AuthMethods().signUpUser(
+    MethodResult res = await AuthMethods().signUpUser(
         email: _emailController.text,
         name: _nameController.text,
         password: _passwordController.text,

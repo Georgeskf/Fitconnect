@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hassan_mortada_social_fitness/models/user.dart';
-import 'package:hassan_mortada_social_fitness/resources/auth_result.dart';
+import 'package:hassan_mortada_social_fitness/resources/method_result.dart';
 import 'package:hassan_mortada_social_fitness/resources/storage_methods.dart';
 
 class AuthMethods {
@@ -19,7 +19,7 @@ class AuthMethods {
   }
 
 
-  Future<AuthResult> signUpUser(
+  Future<MethodResult> signUpUser(
       {required String email,
       required String name,
       required String password,
@@ -43,17 +43,17 @@ class AuthMethods {
     } catch (err) {
       res = err.toString();
       stdout.writeln(res);
-      return AuthResult(success: false, message: res);
+      return MethodResult(success: false, message: res);
     }
-    return AuthResult(success: true, message: "Success");
+    return MethodResult(success: true, message: "Success");
   }
 
-  Future<AuthResult> loginUser({required String email, required String password}) async{
+  Future<MethodResult> loginUser({required String email, required String password}) async{
     try{
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return AuthResult(success: true, message: "Result");
+      return MethodResult(success: true, message: "Result");
     }catch(err){
-      return AuthResult(success: false, message: err.toString());
+      return MethodResult(success: false, message: err.toString());
     }
   }
 }

@@ -4,8 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hassan_mortada_social_fitness/models/user.dart';
+import 'package:hassan_mortada_social_fitness/providers/user_provider.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
+import 'package:hassan_mortada_social_fitness/screens/add_post_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({Key? key}) : super(key: key);
@@ -23,6 +26,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
     // TODO: implement initState
     super.initState();
     pageController = PageController();
+    addData();
   }
 
   @override
@@ -38,10 +42,14 @@ class _LayoutScreenState extends State<LayoutScreen> {
     });
   }
 
+  void addData() async {
+    UserProvider _userProvider = Provider.of(context,listen: false);
+    await _userProvider.refreshUser();
+  }
+
   void navigateTo(int page) {
     pageController.jumpToPage(page);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +59,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
         children: const [
           Center(child: Text("Feed")),
           Center(child: Text("Profile")),
-          Center(child: Text("Upload")),
+          AddPostScreen(),
           Center(child: Text("Chats")),
         ],
       ),
@@ -78,4 +86,5 @@ class _LayoutScreenState extends State<LayoutScreen> {
       ),
     );
   }
+
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
-import 'package:hassan_mortada_social_fitness/resources/auth_result.dart';
+import 'package:hassan_mortada_social_fitness/resources/method_result.dart';
 import 'package:hassan_mortada_social_fitness/screens/signup_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/utils.dart';
 import 'package:hassan_mortada_social_fitness/widgets/text_feild_input.dart';
@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   void loginUser() async{
-    AuthResult res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text);
+    MethodResult res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text);
 
     if(res.success){
       showSnackBar("Successfully Logged In", context);
