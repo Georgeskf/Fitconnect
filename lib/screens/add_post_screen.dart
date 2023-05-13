@@ -92,7 +92,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       isLoading = true;
     });
-    MethodResult res = await FirestoreMethods()
+    Result res = await FirestoreMethods()
         .uploadPost(_captionController.text, _file!, user!);
     if (res.success) {
       showSnackBar("Successfully Posted Image", context);
@@ -111,7 +111,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
     final UserModel? user = Provider.of<UserProvider>(context).getUser;
 
-    stdout.writeln(user!.toJson());
 
     return _file == null
         ? Scaffold(

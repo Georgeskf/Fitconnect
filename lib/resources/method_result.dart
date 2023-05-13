@@ -1,6 +1,6 @@
-class MethodResult{
+class Result{
 
-  MethodResult({required this.success,required this.message});
+  Result({required this.success,required this.message});
 
   bool success;
   String message;

@@ -19,7 +19,7 @@ class AuthMethods {
   }
 
 
-  Future<MethodResult> signUpUser(
+  Future<Result> signUpUser(
       {required String email,
       required String name,
       required String password,
@@ -43,17 +43,17 @@ class AuthMethods {
     } catch (err) {
       res = err.toString();
       stdout.writeln(res);
-      return MethodResult(success: false, message: res);
+      return Result(success: false, message: res);
     }
-    return MethodResult(success: true, message: "Success");
+    return Result(success: true, message: "Success");
   }
 
-  Future<MethodResult> loginUser({required String email, required String password}) async{
+  Future<Result> loginUser({required String email, required String password}) async{
     try{
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return MethodResult(success: true, message: "Result");
+      return Result(success: true, message: "Result");
     }catch(err){
-      return MethodResult(success: false, message: err.toString());
+      return Result(success: false, message: err.toString());
     }
   }
 }

@@ -11,7 +11,7 @@ import 'package:uuid/uuid.dart';
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<MethodResult> uploadPost(
+  Future<Result> uploadPost(
       String caption, Uint8List file, UserModel user) async {
     try {
       String photoUrl = await StorageMethods().uploadImage('posts', file, true);
@@ -31,8 +31,53 @@ class FirestoreMethods {
       _firestore.collection("posts").doc(postId).set(post.toJson());
     } catch (err) {
       stdout.writeln(err.toString());
-      return MethodResult(success: false, message: err.toString());
+      return Result(success: false, message: err.toString());
     }
-    return MethodResult(success: true, message: "Success");
+    return Result(success: true, message: "Success");
+  }
+
+  Future<Result> likePost(String postId, String uid, List likes) async {
+    try {
+      if (likes.contains(uid)) {
+        _firestore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayRemove([uid])
+        });
+      } else {
+        _firestore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayUnion([uid])
+        });
+      }
+    } catch (err) {
+      stdout.writeln(err.toString());
+      return Result(success: true, message: err.toString());
+    }
+    return Result(success: true, message: 'Success');
+  }
+
+  Future<Result> postComment(String postId, String text, UserModel user) async {
+    String res = "Some error occurred";
+    try {
+      if (text.isNotEmpty) {
+        String commentId = const Uuid().v1();
+        _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          'profilePic': user.photoUrl,
+          'name': user.name,
+          'uid': user.uid,
+          'text': text,
+          'commentId': commentId,
+          'datePublished': DateTime.now(),
+        });
+      } else {
+        return Result(success: false, message: 'Please enter text');
+      }
+    } catch (err) {
+      return Result(success: false, message: err.toString());
+    }
+    return Result(success: true, message: 'Success');
   }
 }

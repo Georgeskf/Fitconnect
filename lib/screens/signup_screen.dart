@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isLoading = true;
     });
 
-    MethodResult res = await AuthMethods().signUpUser(
+    Result res = await AuthMethods().signUpUser(
         email: _emailController.text,
         name: _nameController.text,
         password: _passwordController.text,

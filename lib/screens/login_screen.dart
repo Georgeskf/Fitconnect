@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   void loginUser() async{
-    MethodResult res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text);
+    Result res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text);
 
     if(res.success){
       showSnackBar("Successfully Logged In", context);
