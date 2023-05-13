@@ -114,12 +114,25 @@ class _AddPostScreenState extends State<AddPostScreen> {
     stdout.writeln(user!.toJson());
 
     return _file == null
-        ? Center(
-            child: IconButton(
-              onPressed: () {
-                _selectImage(context);
-              },
-              icon: const Icon(Icons.upload),
+        ? Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              title: const Text(
+                "Upload",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+              ),
+            ),
+            body: Center(
+              child: IconButton(
+                onPressed: () {
+                  _selectImage(context);
+                },
+                icon: const Icon(Icons.upload),
+              ),
             ),
           )
         : Scaffold(

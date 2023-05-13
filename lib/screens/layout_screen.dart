@@ -7,6 +7,7 @@ import 'package:hassan_mortada_social_fitness/models/user.dart';
 import 'package:hassan_mortada_social_fitness/providers/user_provider.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
 import 'package:hassan_mortada_social_fitness/screens/add_post_screen.dart';
+import 'package:hassan_mortada_social_fitness/screens/feed_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -43,13 +44,14 @@ class _LayoutScreenState extends State<LayoutScreen> {
   }
 
   void addData() async {
-    UserProvider _userProvider = Provider.of(context,listen: false);
+    UserProvider _userProvider = Provider.of(context, listen: false);
     await _userProvider.refreshUser();
   }
 
   void navigateTo(int page) {
     pageController.jumpToPage(page);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +59,14 @@ class _LayoutScreenState extends State<LayoutScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: const [
-          Center(child: Text("Feed")),
+          FeedScreen(),
           Center(child: Text("Profile")),
           AddPostScreen(),
           Center(child: Text("Chats")),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.home,
@@ -86,5 +89,4 @@ class _LayoutScreenState extends State<LayoutScreen> {
       ),
     );
   }
-
 }
