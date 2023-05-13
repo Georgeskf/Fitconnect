@@ -8,6 +8,7 @@ import 'package:hassan_mortada_social_fitness/providers/user_provider.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
 import 'package:hassan_mortada_social_fitness/screens/add_post_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/feed_screen.dart';
+import 'package:hassan_mortada_social_fitness/screens/search_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -60,9 +61,10 @@ class _LayoutScreenState extends State<LayoutScreen> {
         onPageChanged: onPageChanged,
         children: const [
           FeedScreen(),
-          Center(child: Text("Profile")),
+          SearchScreen(),
           AddPostScreen(),
           Center(child: Text("Chats")),
+          Center(child: Text("Profile")),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -73,7 +75,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   color: _page == 0 ? primaryColor : Colors.grey, size: 36),
               label: ''),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person,
+              icon: Icon(Icons.search,
                   color: _page == 1 ? primaryColor : Colors.grey, size: 36),
               label: ''),
           BottomNavigationBarItem(
@@ -83,6 +85,10 @@ class _LayoutScreenState extends State<LayoutScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.chat,
                   color: _page == 3 ? primaryColor : Colors.grey, size: 36),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person,
+                  color: _page == 4 ? primaryColor : Colors.grey, size: 36),
               label: ''),
         ],
         onTap: navigateTo,
