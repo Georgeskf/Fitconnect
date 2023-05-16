@@ -43,7 +43,8 @@ class AuthMethods {
           name: name,
           photoUrl: photoUrl,
           followers: [],
-          following: []);
+          following: [],
+          chats: []);
 
       await _firestore
           .collection("users")

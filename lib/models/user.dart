@@ -7,6 +7,7 @@ class UserModel {
   final String? photoUrl;
   final List followers;
   final List following;
+  final List chats;
 
   UserModel(
       {required this.uid,
@@ -14,27 +15,29 @@ class UserModel {
       required this.name,
       required this.photoUrl,
       required this.followers,
-      required this.following});
+      required this.following,
+      required this.chats});
 
   static UserModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return UserModel(
-      name: snapshot["name"],
-      uid: snapshot["uid"],
-      email: snapshot["email"],
-      photoUrl: snapshot["photoUrl"],
-      followers: snapshot["followers"],
-      following: snapshot["following"],
-    );
+        name: snapshot["name"],
+        uid: snapshot["uid"],
+        email: snapshot["email"],
+        photoUrl: snapshot["photoUrl"],
+        followers: snapshot["followers"],
+        following: snapshot["following"],
+        chats: snapshot["chats"]);
   }
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "uid": uid,
-    "email": email,
-    "photoUrl": photoUrl,
-    "followers": followers,
-    "following": following,
-  };
+        "name": name,
+        "uid": uid,
+        "email": email,
+        "photoUrl": photoUrl,
+        "followers": followers,
+        "following": following,
+        "chats": chats
+      };
 }

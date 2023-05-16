@@ -105,7 +105,46 @@ class FirestoreMethods {
         });
       }
     } catch (e) {
-      print(e.toString());
+      stdout.writeln(e.toString());
+    }
+  }
+
+  Future<void> sendMessage(String content, String idFrom, String idTo) async {
+    try {
+
+      String chatId = (idFrom.hashCode <= idTo.hashCode)
+          ? "$idFrom-$idTo"
+          : "$idTo-$idFrom";
+
+      DateTime now = DateTime.now();
+
+      _firestore
+          .collection('messages')
+          .doc(chatId)
+          .collection(chatId)
+          .doc(now.microsecondsSinceEpoch.toString())
+          .set({
+        'content': content,
+        'idFrom': idFrom,
+        'idTo': idTo,
+        'timeStamp': now.microsecondsSinceEpoch.toString()
+      });
+
+      DocumentSnapshot snap =
+      await _firestore.collection('users').doc(idFrom).get();
+      List chats = (snap.data()! as dynamic)['chats'];
+
+      if(!chats.contains(idTo)){
+        await _firestore.collection('users').doc(idFrom).update({
+          'chats': FieldValue.arrayUnion([idTo]),
+        });
+
+        await _firestore.collection('users').doc(idTo).update({
+          'chats': FieldValue.arrayUnion([idFrom])
+        });
+      }
+    } catch (e, stack) {
+      stdout.writeln(stack);
     }
   }
 }

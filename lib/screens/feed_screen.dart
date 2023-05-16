@@ -18,7 +18,7 @@ class FeedScreen extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("posts").snapshots(),
+        stream: FirebaseFirestore.instance.collection("posts").orderBy("datePublished",descending: true).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -27,7 +27,7 @@ class FeedScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) => PostCard(
-              snap: List.from(snapshot.data!.docs.reversed)[index].data()
+              snap: snapshot.data!.docs[index].data()
             ),
           );
         },

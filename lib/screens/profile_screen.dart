@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassan_mortada_social_fitness/resources/firestore_methods.dart';
+import 'package:hassan_mortada_social_fitness/screens/chat_details.dart';
 import 'package:hassan_mortada_social_fitness/screens/login_screen.dart';
 import 'package:hassan_mortada_social_fitness/widgets/nullable_avatar.dart';
 
@@ -82,6 +83,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: const TextStyle(color: Colors.black),
               ),
               centerTitle: true,
+              actions: [
+                FirebaseAuth.instance.currentUser!.uid != widget.uid
+                    ? IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  ChatDetailPage(uid: widget.uid)));
+                        },
+                        icon: const Icon(
+                          Icons.chat,
+                          color: Colors.black,
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
             ),
             body: ListView(
               children: [
@@ -91,9 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Row(
                         children: [
-                          Avatar(
-                              radius: 40,
-                              imageURL: userData['photoUrl'].toString()),
+                          Avatar(radius: 40, imageURL: userData['photoUrl']),
                           Expanded(
                             flex: 1,
                             child: Column(
