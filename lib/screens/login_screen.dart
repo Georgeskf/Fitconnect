@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
 import 'package:hassan_mortada_social_fitness/resources/method_result.dart';
+import 'package:hassan_mortada_social_fitness/screens/layout_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/signup_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/utils.dart';
 import 'package:hassan_mortada_social_fitness/widgets/text_feild_input.dart';
@@ -17,13 +18,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  void loginUser() async {
+    Result res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
 
-  void loginUser() async{
-    Result res = await AuthMethods().loginUser(email: _emailController.text, password: _passwordController.text);
-
-    if(res.success){
+    if (res.success) {
       showSnackBar("Successfully Logged In", context);
-    }else{
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LayoutScreen()));
+    } else {
       showSnackBar(res.message, context);
     }
   }
@@ -122,7 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 255, 255)),
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 0, 255, 255)),
                       ),
                     ),
                   )

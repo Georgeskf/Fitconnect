@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hassan_mortada_social_fitness/screens/profile_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/colors.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           onChanged: (String _) {
             setState(() {
-              showUsers = true;
+              showUsers = _searchController.text.isNotEmpty;
             });
           },
         ),
@@ -58,25 +59,36 @@ class _SearchScreenState extends State<SearchScreen> {
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: snapshot.data!.docs[index]["photoUrl"] == null
-                            ? CircleAvatar(
-                                radius: 18,
-                                child: SvgPicture.asset('assets/profile.svg'),
-                              )
-                            : CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    snapshot.data!.docs[index]['photoUrl'].toString()),
-                                radius: 18,
-                              ),
-                        title: Text(snapshot.data!.docs[index]['name']),
+                      return InkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(
+                              uid: snapshot.data!.docs[index]['uid'],
+                            ),
+                          ),
+                        ),
+                        child: ListTile(
+                          leading: snapshot.data!.docs[index]["photoUrl"] ==
+                                  null
+                              ? CircleAvatar(
+                                  radius: 18,
+                                  child: SvgPicture.asset('assets/profile.svg'),
+                                )
+                              : CircleAvatar(
+                                  backgroundImage: NetworkImage(snapshot
+                                      .data!.docs[index]['photoUrl']
+                                      .toString()),
+                                  radius: 18,
+                                ),
+                          title: Text(snapshot.data!.docs[index]['name']),
+                        ),
                       );
                     },
                   );
                 }
               },
             )
-          : const Center(child: Text("Users")),
+          : const SizedBox(),
     );
   }
 }

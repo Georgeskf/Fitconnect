@@ -12,12 +12,12 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<UserModel> getUserDetails() async{
-    DocumentSnapshot snap = await _firestore.collection("users").doc(_auth.currentUser!.uid).get();
+  Future<UserModel> getUserDetails() async {
+    DocumentSnapshot snap =
+        await _firestore.collection("users").doc(_auth.currentUser!.uid).get();
 
     return UserModel.fromSnap(snap);
   }
-
 
   Future<Result> signUpUser(
       {required String email,
@@ -32,28 +32,43 @@ class AuthMethods {
       String? photoUrl;
 
       if (file != null) {
-        photoUrl = await StorageMethods().uploadImage("profilePics", file, false);
+        photoUrl =
+            await StorageMethods().uploadImage("profilePics", file, false);
       }
       stdout.writeln(credential.user!.uid);
 
-      UserModel user = UserModel(uid: credential.user!.uid, email: email, name: name, photoUrl: photoUrl!, followers: [], following: []);
+      UserModel user = UserModel(
+          uid: credential.user!.uid,
+          email: email,
+          name: name,
+          photoUrl: photoUrl,
+          followers: [],
+          following: []);
 
-      await _firestore.collection("users").doc(credential.user!.uid).set(user.toJson());
+      await _firestore
+          .collection("users")
+          .doc(credential.user!.uid)
+          .set(user.toJson());
       res = 'success';
-    } catch (err) {
+    } catch (err, stackTrace) {
       res = err.toString();
-      stdout.writeln(res);
+      stdout.writeln(stackTrace);
       return Result(success: false, message: res);
     }
     return Result(success: true, message: "Success");
   }
 
-  Future<Result> loginUser({required String email, required String password}) async{
-    try{
+  Future<Result> loginUser(
+      {required String email, required String password}) async {
+    try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return Result(success: true, message: "Result");
-    }catch(err){
+    } catch (err) {
       return Result(success: false, message: err.toString());
     }
+  }
+
+  signOut() async {
+    await _auth.signOut();
   }
 }

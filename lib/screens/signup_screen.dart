@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
 import 'package:hassan_mortada_social_fitness/resources/method_result.dart';
+import 'package:hassan_mortada_social_fitness/screens/layout_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/login_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/utils.dart';
 import 'package:hassan_mortada_social_fitness/widgets/text_feild_input.dart';
@@ -53,8 +54,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         file: _image);
 
     if (res.success) {
-
-    }else{
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LayoutScreen()));
+    } else {
       showSnackBar(res.message, context);
     }
 
@@ -214,7 +216,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: const Text(
                         "Log In",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 255, 255)),
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 0, 255, 255)),
                       ),
                     ),
                   )

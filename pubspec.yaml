@@ -44,6 +44,12 @@ dependencies:
   provider: ^6.0.5
   uuid: ^3.0.7
   intl: ^0.17.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/android_logo.png"
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +77,7 @@ flutter:
   assets:
      - assets/LOGO.svg
      - assets/profile.svg
+     - assets/android_logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

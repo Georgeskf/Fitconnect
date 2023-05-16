@@ -8,6 +8,7 @@ import 'package:hassan_mortada_social_fitness/providers/user_provider.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
 import 'package:hassan_mortada_social_fitness/screens/add_post_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/feed_screen.dart';
+import 'package:hassan_mortada_social_fitness/screens/profile_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/search_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -59,12 +60,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
       body: PageView(
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: const [
-          FeedScreen(),
-          SearchScreen(),
-          AddPostScreen(),
-          Center(child: Text("Chats")),
-          Center(child: Text("Profile")),
+        children: [
+          const FeedScreen(),
+          const SearchScreen(),
+          const AddPostScreen(),
+          const Center(child: Text("Chats")),
+          ProfileScreen(uid: FirebaseAuth.instance.currentUser!.uid),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
