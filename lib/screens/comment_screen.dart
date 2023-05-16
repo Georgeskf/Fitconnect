@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hassan_mortada_social_fitness/models/user.dart';
 import 'package:hassan_mortada_social_fitness/resources/firestore_methods.dart';
+import 'package:hassan_mortada_social_fitness/widgets/nullable_avatar.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -49,7 +50,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         backgroundColor: Colors.white,
         title: const Text(
           'Comments',
-          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         leading: const BackButton(
           color: Colors.black,
@@ -86,15 +87,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
           padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(
             children: [
-              user!.photoUrl == null
-                  ? CircleAvatar(
-                      radius: 18,
-                      child: SvgPicture.asset('assets/profile.svg'),
-                    )
-                  : CircleAvatar(
-                      backgroundImage: NetworkImage(user.photoUrl.toString()),
-                      radius: 18,
-                    ),
+              Avatar(radius: 18, imageURL: user!.photoUrl.toString()),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassan_mortada_social_fitness/resources/firestore_methods.dart';
 import 'package:hassan_mortada_social_fitness/screens/login_screen.dart';
+import 'package:hassan_mortada_social_fitness/widgets/nullable_avatar.dart';
 
 import '../resources/auth_methods.dart';
 import '../utils/colors.dart';
@@ -90,16 +91,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Row(
                         children: [
-                          userData['photoUrl'] == null
-                              ? CircleAvatar(
-                                  radius: 40,
-                                  child: SvgPicture.asset('assets/profile.svg'),
-                                )
-                              : CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      userData['photoUrl'].toString()),
-                                  radius: 40,
-                                ),
+                          Avatar(
+                              radius: 40,
+                              imageURL: userData['photoUrl'].toString()),
                           Expanded(
                             flex: 1,
                             child: Column(

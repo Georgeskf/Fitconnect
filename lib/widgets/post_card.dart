@@ -5,6 +5,7 @@ import 'package:hassan_mortada_social_fitness/models/user.dart';
 import 'package:hassan_mortada_social_fitness/providers/user_provider.dart';
 import 'package:hassan_mortada_social_fitness/resources/firestore_methods.dart';
 import 'package:hassan_mortada_social_fitness/screens/comment_screen.dart';
+import 'package:hassan_mortada_social_fitness/widgets/nullable_avatar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -57,16 +58,7 @@ class _PostCardState extends State<PostCard> {
                 .copyWith(right: 0),
             child: Row(
               children: [
-                widget.snap['profImage'] == null
-                    ? CircleAvatar(
-                        radius: 16,
-                        backgroundColor: primaryColor,
-                        child: SvgPicture.asset('assets/profile.svg'),
-                      )
-                    : CircleAvatar(
-                        radius: 16,
-                        backgroundImage: NetworkImage(widget.snap['profImage']),
-                      ),
+                Avatar(radius: 16, imageURL: widget.snap["profImage"]),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8),
@@ -76,7 +68,7 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         Text(
                           widget.snap['username'],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

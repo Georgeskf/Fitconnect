@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hassan_mortada_social_fitness/screens/profile_screen.dart';
 import 'package:hassan_mortada_social_fitness/utils/colors.dart';
+import 'package:hassan_mortada_social_fitness/widgets/nullable_avatar.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -68,18 +69,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                         child: ListTile(
-                          leading: snapshot.data!.docs[index]["photoUrl"] ==
-                                  null
-                              ? CircleAvatar(
-                                  radius: 18,
-                                  child: SvgPicture.asset('assets/profile.svg'),
-                                )
-                              : CircleAvatar(
-                                  backgroundImage: NetworkImage(snapshot
-                                      .data!.docs[index]['photoUrl']
-                                      .toString()),
-                                  radius: 18,
-                                ),
+                          leading: Avatar(
+                              radius: 18,
+                              imageURL: snapshot.data!.docs[index]['photoUrl']
+                                  .toString()),
                           title: Text(snapshot.data!.docs[index]['name']),
                         ),
                       );
