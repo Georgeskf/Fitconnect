@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hassan_mortada_social_fitness/models/post.dart';
+import 'package:hassan_mortada_social_fitness/models/shared_stats.dart';
 import 'package:hassan_mortada_social_fitness/models/user.dart';
 import 'package:hassan_mortada_social_fitness/resources/method_result.dart';
 import 'package:hassan_mortada_social_fitness/resources/storage_methods.dart';
@@ -111,7 +112,6 @@ class FirestoreMethods {
 
   Future<void> sendMessage(String content, String idFrom, String idTo) async {
     try {
-
       String chatId = (idFrom.hashCode <= idTo.hashCode)
           ? "$idFrom-$idTo"
           : "$idTo-$idFrom";
@@ -131,10 +131,10 @@ class FirestoreMethods {
       });
 
       DocumentSnapshot snap =
-      await _firestore.collection('users').doc(idFrom).get();
+          await _firestore.collection('users').doc(idFrom).get();
       List chats = (snap.data()! as dynamic)['chats'];
 
-      if(!chats.contains(idTo)){
+      if (!chats.contains(idTo)) {
         await _firestore.collection('users').doc(idFrom).update({
           'chats': FieldValue.arrayUnion([idTo]),
         });
@@ -146,5 +146,30 @@ class FirestoreMethods {
     } catch (e, stack) {
       stdout.writeln(stack);
     }
+  }
+
+  Future<Result> shareStats(UserModel user, String steps, String time,
+      String hrtRate, String energy) async {
+    try {
+      String postId = const Uuid().v1();
+
+      SharedStatsModel stats = SharedStatsModel(
+          uid: user.uid,
+          username: user.name,
+          postId: postId,
+          datePublished: DateTime.now(),
+          profImage: user.photoUrl,
+          likes: [],
+          steps: steps,
+          time: time,
+          energy: energy,
+          hrtRate: hrtRate);
+
+      _firestore.collection("posts").doc(postId).set(stats.toJson());
+    } catch (e, stack) {
+      stdout.writeln(stack.toString());
+      return Result(success: false, message: e.toString());
+    }
+    return Result(success: true, message: "Success");
   }
 }

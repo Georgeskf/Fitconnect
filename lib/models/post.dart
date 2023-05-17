@@ -23,6 +23,10 @@ class PostModel {
   static PostModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
+    if (snapshot["isPost"] == false) {
+      throw Exception("Must be an image");
+    }
+
     return PostModel(
       username: snapshot["username"],
       uid: snapshot["uid"],
@@ -43,6 +47,7 @@ class PostModel {
         "postUrl": postUrl,
         "datePublished": datePublished,
         "profImage": profImage,
-        "likes": likes
+        "likes": likes,
+        "isPost": true
       };
 }

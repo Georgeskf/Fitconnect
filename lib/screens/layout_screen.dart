@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hassan_mortada_social_fitness/models/user.dart';
 import 'package:hassan_mortada_social_fitness/providers/user_provider.dart';
 import 'package:hassan_mortada_social_fitness/resources/auth_methods.dart';
+import 'package:hassan_mortada_social_fitness/screens/activities_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/add_post_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/chats_screen.dart';
 import 'package:hassan_mortada_social_fitness/screens/feed_screen.dart';
@@ -66,6 +67,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           const SearchScreen(),
           const AddPostScreen(),
           const ChatScreen(),
+          const ActivitiesScreen(),
           ProfileScreen(uid: FirebaseAuth.instance.currentUser!.uid),
         ],
       ),
@@ -89,8 +91,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   color: _page == 3 ? primaryColor : Colors.grey, size: 36),
               label: ''),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person,
+              icon: Icon(Icons.area_chart,
                   color: _page == 4 ? primaryColor : Colors.grey, size: 36),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person,
+                  color: _page == 5 ? primaryColor : Colors.grey, size: 36),
               label: ''),
         ],
         onTap: navigateTo,

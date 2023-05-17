@@ -28,66 +28,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
     super.dispose();
     _captionController.dispose();
   }
-
-  _selectImage(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            title: const Text("Select an option"),
-            children: [
-              SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: const [
-                    Icon(Icons.camera_alt),
-                    Padding(padding: EdgeInsets.all(10)),
-                    Text("Take a photo"),
-                  ],
-                ),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(ImageSource.camera);
-                  setState(() {
-                    _file = file;
-                  });
-                },
-              ),
-              SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: const [
-                    Icon(Icons.photo_library),
-                    Padding(padding: EdgeInsets.all(10)),
-                    Text("Choose From Library"),
-                  ],
-                ),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(ImageSource.gallery);
-                  setState(() {
-                    _file = file;
-                  });
-                },
-              ),
-              SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: const [
-                    Icon(Icons.cancel),
-                    Padding(padding: EdgeInsets.all(10)),
-                    Text("Cancel"),
-                  ],
-                ),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
-
   void postImage(UserModel? user) async {
     setState(() {
       isLoading = true;
@@ -111,7 +51,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
     final UserModel? user = Provider.of<UserProvider>(context).getUser;
 
-
     return _file == null
         ? Scaffold(
             appBar: AppBar(
@@ -126,11 +65,41 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ),
             ),
             body: Center(
-              child: IconButton(
-                onPressed: () {
-                  _selectImage(context);
-                },
-                icon: const Icon(Icons.upload),
+              child: Column(
+                children: [
+                  SimpleDialogOption(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.camera_alt),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Text("Take a photo"),
+                      ],
+                    ),
+                    onPressed: () async {
+                      Uint8List? file = await pickImage(ImageSource.camera);
+                      setState(() {
+                        _file = file;
+                      });
+                    },
+                  ),
+                  SimpleDialogOption(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.photo_library),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Text("Choose From Library"),
+                      ],
+                    ),
+                    onPressed: () async {
+                      Uint8List? file = await pickImage(ImageSource.gallery);
+                      setState(() {
+                        _file = file;
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
           )
@@ -165,14 +134,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ],
             ),
             body: Column(
-              children: <Widget>[
+              children: [
                 isLoading ? const LinearProgressIndicator() : Container(),
                 const Padding(padding: EdgeInsets.only(top: 0.0)),
                 const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: TextField(
@@ -183,24 +152,24 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         maxLines: 8,
                       ),
                     ),
-                    SizedBox(
-                      height: 45.0,
-                      width: 45.0,
-                      child: AspectRatio(
-                        aspectRatio: 487 / 451,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            fit: BoxFit.fill,
-                            alignment: FractionalOffset.topCenter,
-                            image: MemoryImage(_file!),
-                          )),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 const Divider(),
+                SizedBox(
+                  height: 200.0,
+                  width: 200.0,
+                  child: AspectRatio(
+                    aspectRatio: 487 / 451,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        fit: BoxFit.fill,
+                        alignment: FractionalOffset.topCenter,
+                        image: MemoryImage(_file!),
+                      )),
+                    ),
+                  ),
+                ),
               ],
             ),
           );

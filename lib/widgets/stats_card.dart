@@ -1,28 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hassan_mortada_social_fitness/models/user.dart';
-import 'package:hassan_mortada_social_fitness/providers/user_provider.dart';
-import 'package:hassan_mortada_social_fitness/resources/firestore_methods.dart';
-import 'package:hassan_mortada_social_fitness/screens/comment_screen.dart';
-import 'package:hassan_mortada_social_fitness/widgets/nullable_avatar.dart';
+import 'package:hassan_mortada_social_fitness/widgets/stats.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../models/user.dart';
+import '../providers/user_provider.dart';
+import '../resources/firestore_methods.dart';
+import '../screens/comment_screen.dart';
 import '../screens/profile_screen.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
+import 'nullable_avatar.dart';
 
-class PostCard extends StatefulWidget {
+class StatsCard extends StatefulWidget {
   final snap;
 
-  const PostCard({Key? key, required this.snap}) : super(key: key);
+  const StatsCard({Key? key, required this.snap}) : super(key: key);
 
   @override
-  State<PostCard> createState() => _PostCardState();
+  State<StatsCard> createState() => _StatsCardState();
 }
 
-class _PostCardState extends State<PostCard> {
+class _StatsCardState extends State<StatsCard> {
   int _commentLen = 0;
 
   fetchCommentLen() async {
@@ -75,9 +75,20 @@ class _PostCardState extends State<PostCard> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            widget.snap['username'],
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          RichText(
+                            text: TextSpan(
+                              style: const TextStyle(color: Colors.black),
+                              children: [
+                                TextSpan(
+                                  text: widget.snap['username'],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const TextSpan(
+                                  text: " wants to share their progress",
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -87,13 +98,14 @@ class _PostCardState extends State<PostCard> {
               ),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
-            width: double.infinity,
-            child: Image.network(
-              widget.snap['postUrl'],
-            ),
-          ),
+          Text("Total Steps: ${widget.snap['steps']}",
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          const SizedBox(height: 10),
+          Stats(
+              time: widget.snap['time'],
+              hrtRate: widget.snap['hrtRate'],
+              energy: widget.snap['energy']),
           Row(
             children: [
               IconButton(
@@ -136,19 +148,11 @@ class _PostCardState extends State<PostCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(' ${widget.snap['likes'].length} likes'),
-                Container(
+                SizedBox(
                   width: double.infinity,
-                  padding: const EdgeInsets.only(top: 8),
                   child: RichText(
-                    text: TextSpan(
-                        style: const TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(
-                              text: widget.snap['username'],
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: ' ${widget.snap['caption']}'),
-                        ]),
+                    text: const TextSpan(
+                        style: TextStyle(color: Colors.black), children: []),
                   ),
                 ),
                 InkWell(
