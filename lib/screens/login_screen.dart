@@ -49,10 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
-                flex: 2,
-                child: Container(),
-              ),
+              Flexible(flex: 2, child: Container()),
               SvgPicture.asset(
                 "assets/LOGO.svg",
                 height: 96,
@@ -101,13 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
-              Flexible(
-                flex: 2,
-                child: Container(),
-              ),
+              const SizedBox(height: 12),
+              Flexible(flex: 2, child: Container()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

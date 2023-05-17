@@ -69,161 +69,166 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "assets/LOGO.svg",
-                height: 96,
-              ),
-              const SizedBox(
-                height: 64,
-                child: Text(
-                  'Welcome to ActivPal',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Stack(
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: _image == null
-                        ? const CircleAvatar(
-                            radius: 64,
-                            child: Icon(
-                              Icons.person,
-                              size: 64,
-                            ),
-                          )
-                        : CircleAvatar(
-                            radius: 64,
-                            backgroundImage: MemoryImage(_image!),
-                          ),
+                  //Flexible(flex: 2, child: Container()),
+                  SvgPicture.asset(
+                    "assets/LOGO.svg",
+                    height: 96,
                   ),
-                  Positioned(
-                    bottom: -10,
-                    left: 80,
-                    child: IconButton(
-                      onPressed: () {
-                        selectImage(ImageSource.gallery);
-                      },
-                      icon: const Icon(Icons.photo_library),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -10,
-                    right: 80,
-                    child: IconButton(
-                      onPressed: () {
-                        selectImage(ImageSource.camera);
-                      },
-                      icon: const Icon(Icons.camera_alt),
-                    ),
-                  ),
-                  _image != null
-                      ? Positioned(
-                          top: -10,
-                          left: 80,
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _image = null;
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.remove_circle_outlined,
-                              color: Colors.red,
-                            ),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              TextFieldInput(
-                textEditingController: _nameController,
-                hintText: 'Enter Your Name',
-                textInputType: TextInputType.name,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                textEditingController: _emailController,
-                hintText: 'Enter Your Email',
-                textInputType: TextInputType.emailAddress,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                textEditingController: _passwordController,
-                hintText: 'Enter Your Password',
-                textInputType: TextInputType.visiblePassword,
-                isPassword: true,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              InkWell(
-                onTap: () {
-                  if (!isLoading) signUpUser();
-                },
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: const ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    color: Color.fromARGB(255, 0, 255, 255),
-                  ),
-                  child: isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : const Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 24),
-                        ),
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: const Text("Already Have An Account?"),
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                          builder: (builder) => const LoginScreen()),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const Text(
-                        "Log In",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 0, 255, 255)),
+                  const SizedBox(
+                    height: 64,
+                    child: Text(
+                      'Welcome to ActivPal',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+                  ),
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: _image == null
+                            ? const CircleAvatar(
+                                radius: 64,
+                                child: Icon(
+                                  Icons.person,
+                                  size: 64,
+                                ),
+                              )
+                            : CircleAvatar(
+                                radius: 64,
+                                backgroundImage: MemoryImage(_image!),
+                              ),
+                      ),
+                      Positioned(
+                        bottom: -10,
+                        left: 80,
+                        child: IconButton(
+                          onPressed: () {
+                            selectImage(ImageSource.gallery);
+                          },
+                          icon: const Icon(Icons.photo_library),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -10,
+                        right: 80,
+                        child: IconButton(
+                          onPressed: () {
+                            selectImage(ImageSource.camera);
+                          },
+                          icon: const Icon(Icons.camera_alt),
+                        ),
+                      ),
+                      _image != null
+                          ? Positioned(
+                              top: -10,
+                              left: 80,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _image = null;
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.remove_circle_outlined,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  TextFieldInput(
+                    textEditingController: _nameController,
+                    hintText: 'Enter Your Name',
+                    textInputType: TextInputType.name,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFieldInput(
+                    textEditingController: _emailController,
+                    hintText: 'Enter Your Email',
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFieldInput(
+                    textEditingController: _passwordController,
+                    hintText: 'Enter Your Password',
+                    textInputType: TextInputType.visiblePassword,
+                    isPassword: true,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      if (!isLoading) signUpUser();
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: const ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        color: Color.fromARGB(255, 0, 255, 255),
+                      ),
+                      child: isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : const Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 24),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: const Text("Already Have An Account?"),
+                      ),
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (builder) => const LoginScreen()),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: const Text(
+                            "Log In",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 0, 255, 255)),
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ),
